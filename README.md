@@ -3,6 +3,11 @@
 
 <br><br><br><br>
 
+###Demo
+**View a demo [here](http://sirbaaron.github.io/ripple-js/demo/)**
+
+<br><br><br>
+
 ### Setup
 * **With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
 * **As Download:**<p>1. Download the project as zip from github.<br>2. Extract the file and move the folder to your project.<br>3. Add the tag `script src="ripple-js-master/ripple-js-master/ripple.min.js"></script>` to your index file.
