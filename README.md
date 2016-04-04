@@ -30,3 +30,7 @@ To customize the ripple effect you can set the following tags on your ripple ele
 document.body.innerHTML += '<div class="ripple">Added Afterwards</div>';
 ripple.registerRipples();
 ```
+
+<br><br><br>
+###Events
+* **ripple-button-click**<br>This event gets fired when a ripple is released<p>The only parametrer is `target`, which is the element that got clicked
