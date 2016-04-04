@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../ripple.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			document.getElementById('eventDemo').addEventListener('ripple-button-click', function() {
+				alert('The element got succesfully clicked!');
+			});
+			window.setTimeout(function() {
+				ripple.registerRipples();
+			}, 1000)
+		}
+	</script>
+	<style>
+		body {
+			font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+			overflow-x: hidden;
+			background: #F9F9F9;
+		}
+
+		.noSelect {
+			webkit-touch-callout: none;
+		    -webkit-user-select: none; 
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		}
+
+		.margin {
+			margin: 5vw;
+		}
+	</style>
+	</head>
+	<body style="margin: 0px" align="center">
+		<div style="width: 100vw; height: 100vh; background: orange" class="ripple" align="center">
+			<h1 class="noSelect" style="color: white; font-size: 500%;">Ripple-js Demo</h1>
+			<h1 class="noSelect" style="color: #F4F4F4;">Click anywhere to start a ripple</h1>
+		</div>
+		<div style="width: 90vw; height: 90vh; background: DarkSeaGreen" class="ripple margin" align="center">
+			<h1 class="noSelect" style="color: white; font-size: 200%">Hold down to slowly expand the ripple</h1>
+		</div>
+		<div style="width: 90vw; height: 90vh; background: LimeGreen" class="ripple margin" align="center">
+			<h1 class="noSelect" style="color: white; font-size: 200%">While pressing, move the pointer out of the container to cancel the ripple</h1>
+		</div>
+		<div style="width: 90vw; height: 33vh; background: coral" class="ripple margin" align="center" ripple-color="DarkMagenta" ripple-opacity="0.9">
+			<h2 class="noSelect" style="color: white;">You can change the looks of the ripple</h2>
+		</div>
+		<div style="width: 90vw; height: 33vh; background: IndianRed" class="ripple margin" align="center" ripple-opacity="0.5" ripple-color="url('pattern.jpg')">
+			<h2 class="noSelect" style="color: white;">You can even use a picture as background</h2>
+		</div>
+		<div style="width: 90vw; height: 33vh; background: Maroon" class="ripple margin" align="center" ripple-color="LemonChiffon" ripple-opacity="0.6" ripple-shadow="0px 0px 25px 10px rgba(51,51,51,0.77)">
+			<h2 class="noSelect" style="color: white;">You can add a shadow to the ripple</h2>
+		</div>
+		<div style="width: 90vw; height: 33vh; background: Teal" class="ripple margin" align="center" ripple-color="Lime" ripple-opacity="0.3" ripple-press-expand-time="10" ripple-release-expand-time="3" ripple-leave-collapse-time="1.8">
+			<h2 class="noSelect" style="color: white;">You can change the timing of the effect</h2>
+		</div>
+		<div id="eventDemo" style="width: 90vw; height: 33vh; background: RebeccaPurple" class="ripple margin" align="center" ripple-color="RoyalBlue" ripple-opacity="0.5">
+			<h2 class="noSelect" style="color: white;">If clicked, the element fires an 'ripple-button-click' event</h2>
+		</div>
+		<h1 style="color: black; font-size: 200%; font-family: 'Comic Sans MS'">Like what you see? See you on <a href="https://github.com/SirBaaron/ripple-js/blob/master/README.md" target="_blank">Github</a>.</h1>
+		<h1 style="color: black; font-size: 150%; font-family: 'Comic Sans MS'">Made by Aaron Längert</h1>
+	</body>
+</html>
