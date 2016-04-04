@@ -4,8 +4,8 @@
 <br><br><br><br>
 
 ### Setup
-* **With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the script tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
-* **As Download:**<p>1. Download the project as zip from github<br>2.
+* **With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
+* **As Download:**<p>1. Download the project as zip from github.<br>2. Extract the file and move the folder to your project.<br>3. Add the tag `script src="ripple-js-master/ripple-js-master/ripple.min.js"></script>` to your index file.
 
 <br><br><br>
 ### Properties
@@ -23,5 +23,5 @@ To customize the ripple effect you can set the following tags on your ripple ele
 * **registerRipples**<br>Call this method to register ripple elements afterwards <p>°If you add ripple elements after the document has loaded, you then need to call this function. The function gets called auomatically on initial load.<br>°_Example:_ 
 ```
 document.body.innerHTML += '<div class="ripple">Added Afterwards</div>';
-registerRipples();
+ripple.registerRipples();
 ```
