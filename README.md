@@ -1,11 +1,12 @@
 # ripple-js
 **A small Javascript library for ripple effects**
-<br><br>
-**This Readme is not complete yet!**
+
 <br><br><br><br>
+
 ### Setup
-* **With npm:**
-* **With bower:**
+* **With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the script tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
+* **As Download:**<p>1. Download the project as zip from github<br>2.
+
 <br><br><br>
 ### Properties
 
