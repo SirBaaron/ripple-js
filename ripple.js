@@ -1,0 +1,128 @@
+//Written by Aaron Längert
+var ripple = function() {
+    window.addEventListener("load", function() {
+        //add stylesheet at finished load
+        document.head.innerHTML += '<style type="text/css">.ripple { overflow: hidden; position: relative; } .ripple .rippleContainer { display: inline-block; height: 0px !important; width: 0px !important; padding: 0px 0px 0px 0px; border-radius: 50%; position: absolute; top: 0px; left: 0px; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); background-color: transparent; }  .ripple * {pointer-events: none;}</style>';
+        ripple.registerRipples();
+    });
+    function rippleStart(e) {
+        rippleContainer = getRippleContainer(e.target);
+        if (rippleContainer.getAttribute("animating") == "0" || !rippleContainer.hasAttribute("animating")) {
+            rippleContainer.setAttribute("animating", "1");
+            scroll = getScroll(e.target);
+            offsetX = typeof e.offsetX == "number" ? e.offsetX : e.touches[0].pageX - scroll.left;
+            offsetY = typeof e.offsetY == "number" ? e.offsetY : e.touches[0].pageY - scroll.top;
+            //fullCoverRadius is the longest distance between the touch and the corners of the element where the event fired
+            fullCoverRadius = Math.max(Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)), Math.sqrt(Math.pow(e.target.clientWidth - offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)), Math.sqrt(Math.pow(offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)), Math.sqrt(Math.pow(offsetY, 2) + Math.pow(e.target.clientWidth - offsetX, 2)));
+            expandTime = e.target.getAttribute("ripple-press-expand-time") || 3;
+            rippleContainer.style.transition = "padding " + expandTime + "s ease-out, box-shadow 0.1s linear";
+            rippleContainer.style.background = e.target.getAttribute("ripple-color") || "white";
+            rippleContainer.style.opacity = e.target.getAttribute("ripple-opacity") || "0.6";
+            rippleContainer.style.boxShadow = e.target.getAttribute("ripple-shadow") || "none";
+            rippleContainer.style.top = offsetY + "px";
+            rippleContainer.style.left = offsetX + "px";
+            rippleContainer.style.padding = fullCoverRadius + "px";
+        }
+    }
+    function rippleEnd(e) {
+        rippleContainer = getRippleContainer(e.target);
+        if (rippleContainer.getAttribute("animating") == "1") {
+            rippleContainer.setAttribute("animating", "2");
+            radius = window.getComputedStyle(rippleContainer, null).getPropertyValue("padding");
+            background = window.getComputedStyle(rippleContainer, null).getPropertyValue("background");
+            destinationRadius = e.target.clientWidth + e.target.clientHeight;
+            rippleContainer.style.transition = "none";
+            rippleContainer.style.padding = radius;
+            expandTime = e.target.getAttribute("ripple-release-expand-time") || .4;
+            rippleContainer.style.transition = "padding " + expandTime + "s linear, background " + expandTime + "s linear, opacity " + expandTime + "s ease-in-out";
+            rippleContainer.style.padding = destinationRadius + "px";
+            rippleContainer.style.background = "radial-gradient(transparent 10%, " + background + " 40%)";
+            rippleContainer.style.opacity = "0";
+            //fire custom event
+            e.target.dispatchEvent(new CustomEvent("ripple-button-click", {
+                target: e.target
+            }));
+        }
+    }
+    function rippleRetrieve(e) {
+        rippleContainer = getRippleContainer(e.target);
+        if (rippleContainer.getAttribute("animating") == "1") {
+            rippleContainer.setAttribute("animating", "3");
+            collapseTime = e.target.getAttribute("ripple-leave-collapse-time") || .4;
+            rippleContainer.style.transition = "padding " + collapseTime + "s linear, box-shadow " + collapseTime + "s linear";
+            rippleContainer.style.boxShadow = "none";
+            rippleContainer.style.padding = "0px";
+        }
+    }
+    //returns the ripple div by scanning all children. If not found, return the argument
+    function getRippleContainer(el) {
+        childs = el.childNodes;
+        for (ii = 0; ii < childs.length; ii++) {
+            try {
+                if (childs[ii].className.indexOf("rippleContainer") > -1) {
+                    return childs[ii];
+                }
+            } catch (err) {}
+        }
+        return el;
+    }
+    //calculates the top and left space of the document hidden due to scrolling
+    function getScroll(el) {
+        scroll = {
+            top: 0 + el.getBoundingClientRect().top,
+            left: 0 + el.getBoundingClientRect().left
+        };
+        do {
+            scroll.top += el.scrollTop || 0;
+            scroll.left += el.scrollLeft || 0;
+        } while (el = el.parentNode);
+        return scroll;
+    }
+    var ripple = {
+        registerRipples: function() {
+            //loop through all elements with the class ripple and add eventlisteners to them
+            rippleButtons = document.getElementsByClassName("ripple");
+            for (i = 0; i < rippleButtons.length; i++) {
+                rippleButtons[i].addEventListener("touchstart", function(e) {
+                    rippleStart(e);
+                }, false);
+                rippleButtons[i].addEventListener("touchmove", function(e) {
+                    try {
+                        scroll = getScroll(e.target);
+                        overEl = document.elementFromPoint(e.touches[0].pageX - scroll.left, e.touches[0].pageY - scroll.top).className.indexOf("ripple") >= 0;
+                    } catch (err) {
+                        overEl = false;
+                    }
+                    if (!overEl) {
+                        rippleRetrieve(e);
+                    }
+                }, false);
+                rippleButtons[i].addEventListener("touchend", function(e) {
+                    rippleEnd(e);
+                }, false);
+                rippleButtons[i].addEventListener("mousedown", function(e) {
+                    rippleStart(e);
+                }, false);
+                rippleButtons[i].addEventListener("mouseup", function(e) {
+                    rippleEnd(e);
+                }, false);
+                rippleButtons[i].addEventListener("mouseleave", function(e) {
+                    rippleRetrieve(e);
+                }, false);
+                rippleButtons[i].addEventListener("transitionend", function(e) {
+                    if (e.target.getAttribute("animating") == "2" || e.target.getAttribute("animating") == "3") {
+                        e.target.style.transition = "none";
+                        e.target.style.padding = "0px";
+                        e.target.style.boxShadow = "none";
+                        e.target.setAttribute("animating", "0");
+                    }
+                }, false);
+                //if not there, create a ripple div inside the element
+                if (getRippleContainer(rippleButtons[i]) == rippleButtons[i]) {
+                    rippleButtons[i].innerHTML += '<div class="rippleContainer"></div>';
+                }
+            }
+        }
+    };
+    return ripple;
+}();
