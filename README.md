@@ -1,11 +1,17 @@
 # ripple-js
 **A small Javascript library for ripple effects**
 
-<br><br><br><br>
+<br><br>
+
+####View a demo [here](http://sirbaaron.github.io/ripple-js/demo/)
+
+<br><br><br>
 
 ### Setup
 * **With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
 * **As Download:**<p>1. Download the project as zip from github.<br>2. Extract the file and move the folder to your project.<br>3. Add the tag `script src="ripple-js-master/ripple-js-master/ripple.min.js"></script>` to your index file.
+ 
+**Then simply add the class ripple to elements**
 
 <br><br><br>
 ### Properties
@@ -25,3 +31,7 @@ To customize the ripple effect you can set the following tags on your ripple ele
 document.body.innerHTML += '<div class="ripple">Added Afterwards</div>';
 ripple.registerRipples();
 ```
+
+<br><br><br>
+###Events
+* **ripple-button-click**<br>This event gets fired when a ripple is released<p>The only parametrer is `target`, which is the element that got clicked

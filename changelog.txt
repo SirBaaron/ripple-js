@@ -1,0 +1,26 @@
+!========_ Version 1.1 _========!
+
+°Fixed the position of the ripple when the document is scrolled
+°Made the javascript more library-like: It now returns a ripple object with the registerRipples function
+
+
+
+
+!========_ Version 1.1.1 _========!
+
+°Updated the demo
+
+
+
+
+!========_ Version 1.1.2 _========!
+
+°Added the event section to the README
+
+
+
+
+!========_ Version 1.2 _========!
+
+°Scrolling now gets disabled while a ripple element is being pressed
+°Improved the README

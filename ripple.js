@@ -2,13 +2,17 @@
 var ripple = function() {
     window.addEventListener("load", function() {
         //add stylesheet at finished load
-        document.head.innerHTML += '<style type="text/css">.ripple { overflow: hidden; position: relative; } .ripple .rippleContainer { display: inline-block; height: 0px !important; width: 0px !important; padding: 0px 0px 0px 0px; border-radius: 50%; position: absolute; top: 0px; left: 0px; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); background-color: transparent; }  .ripple * {pointer-events: none;}</style>';
+        css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".ripple { overflow: hidden; position: relative; } .ripple .rippleContainer { display: inline-block; height: 0px !important; width: 0px !important; padding: 0px 0px 0px 0px; border-radius: 50%; position: absolute; top: 0px; left: 0px; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); background-color: transparent; }  .ripple * {pointer-events: none;}";
+        document.head.appendChild(css);
         ripple.registerRipples();
     });
     function rippleStart(e) {
         rippleContainer = getRippleContainer(e.target);
         if (rippleContainer.getAttribute("animating") == "0" || !rippleContainer.hasAttribute("animating")) {
             rippleContainer.setAttribute("animating", "1");
+            document.styleSheets[0].insertRule("body, body * {overflow: hidden}", 0);
             scroll = getScroll(e.target);
             offsetX = typeof e.offsetX == "number" ? e.offsetX : e.touches[0].pageX - scroll.left;
             offsetY = typeof e.offsetY == "number" ? e.offsetY : e.touches[0].pageY - scroll.top;
@@ -28,6 +32,7 @@ var ripple = function() {
         rippleContainer = getRippleContainer(e.target);
         if (rippleContainer.getAttribute("animating") == "1") {
             rippleContainer.setAttribute("animating", "2");
+            document.styleSheets[0].deleteRule(0);
             radius = window.getComputedStyle(rippleContainer, null).getPropertyValue("padding");
             background = window.getComputedStyle(rippleContainer, null).getPropertyValue("background");
             destinationRadius = e.target.clientWidth + e.target.clientHeight;
@@ -48,6 +53,7 @@ var ripple = function() {
         rippleContainer = getRippleContainer(e.target);
         if (rippleContainer.getAttribute("animating") == "1") {
             rippleContainer.setAttribute("animating", "3");
+            document.styleSheets[0].deleteRule(0);
             collapseTime = e.target.getAttribute("ripple-leave-collapse-time") || .4;
             rippleContainer.style.transition = "padding " + collapseTime + "s linear, box-shadow " + collapseTime + "s linear";
             rippleContainer.style.boxShadow = "none";
