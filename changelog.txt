@@ -24,3 +24,10 @@
 
 °Scrolling now gets disabled while a ripple element is being pressed
 °Improved the README
+
+
+
+
+!========_ Version 1.2.1 _========!
+
+°Scrolling no longer gets disabled
