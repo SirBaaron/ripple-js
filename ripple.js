@@ -4,41 +4,38 @@ var ripple = function() {
         //add stylesheet at finished load
         css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = ".ripple { overflow: hidden; position: relative; } .ripple .rippleContainer { display: inline-block; height: 0px !important; width: 0px !important; padding: 0px 0px 0px 0px; border-radius: 50%; position: absolute; top: 0px; left: 0px; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); background-color: transparent; }  .ripple * {pointer-events: none;}";
+        css.innerHTML = ".ripple { overflow: hidden !important; position: relative; } .ripple .rippleContainer { display: block; height: 200px !important; width: 200px !important; padding: 0px 0px 0px 0px; border-radius: 50%; position: absolute !important; top: 0px; left: 0px; transform: translate(-50%, -50%) scale(0); -webkit-transform: translate(-50%, -50%) scale(0); -ms-transform: translate(-50%, -50%) scale(0); background-color: transparent; }  .ripple * {pointer-events: none !important;}";
         document.head.appendChild(css);
         ripple.registerRipples();
     });
     function rippleStart(e) {
         rippleContainer = getRippleContainer(e.target);
-        if (rippleContainer.getAttribute("animating") == "0" || !rippleContainer.hasAttribute("animating")) {
+        if ((rippleContainer.getAttribute("animating") == "0" || !rippleContainer.hasAttribute("animating")) && e.target.className.indexOf("ripple") > -1) {
             rippleContainer.setAttribute("animating", "1");
-            scroll = getScroll(e.target);
-            offsetX = typeof e.offsetX == "number" ? e.offsetX : e.touches[0].pageX - scroll.left;
-            offsetY = typeof e.offsetY == "number" ? e.offsetY : e.touches[0].pageY - scroll.top;
+            offsetX = typeof e.offsetX == "number" ? e.offsetX : e.touches[0].clientX - e.target.getBoundingClientRect().left;
+            offsetY = typeof e.offsetY == "number" ? e.offsetY : e.touches[0].clientY - e.target.getBoundingClientRect().top;
             //fullCoverRadius is the longest distance between the touch and the corners of the element where the event fired
             fullCoverRadius = Math.max(Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)), Math.sqrt(Math.pow(e.target.clientWidth - offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)), Math.sqrt(Math.pow(offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)), Math.sqrt(Math.pow(offsetY, 2) + Math.pow(e.target.clientWidth - offsetX, 2)));
             expandTime = e.target.getAttribute("ripple-press-expand-time") || 3;
-            rippleContainer.style.transition = "padding " + expandTime + "s ease-out, box-shadow 0.1s linear";
+            rippleContainer.style.transition = "transform " + expandTime + "s ease-out, box-shadow 0.1s linear";
             rippleContainer.style.background = e.target.getAttribute("ripple-color") || "white";
             rippleContainer.style.opacity = e.target.getAttribute("ripple-opacity") || "0.6";
             rippleContainer.style.boxShadow = e.target.getAttribute("ripple-shadow") || "none";
             rippleContainer.style.top = offsetY + "px";
             rippleContainer.style.left = offsetX + "px";
-            rippleContainer.style.padding = fullCoverRadius + "px";
+            rippleContainer.style.transform = "translate(-50%, -50%) scale(" + fullCoverRadius / 100 + ")";
         }
     }
     function rippleEnd(e) {
         rippleContainer = getRippleContainer(e.target);
         if (rippleContainer.getAttribute("animating") == "1") {
             rippleContainer.setAttribute("animating", "2");
-            radius = window.getComputedStyle(rippleContainer, null).getPropertyValue("padding");
             background = window.getComputedStyle(rippleContainer, null).getPropertyValue("background");
             destinationRadius = e.target.clientWidth + e.target.clientHeight;
             rippleContainer.style.transition = "none";
-            rippleContainer.style.padding = radius;
             expandTime = e.target.getAttribute("ripple-release-expand-time") || .4;
-            rippleContainer.style.transition = "padding " + expandTime + "s linear, background " + expandTime + "s linear, opacity " + expandTime + "s ease-in-out";
-            rippleContainer.style.padding = destinationRadius + "px";
+            rippleContainer.style.transition = "transform " + expandTime + "s linear, background " + expandTime + "s linear, opacity " + expandTime + "s ease-in-out";
+            rippleContainer.style.transform = "translate(-50%, -50%) scale(" + destinationRadius / 100 + ")";
             rippleContainer.style.background = "radial-gradient(transparent 10%, " + background + " 40%)";
             rippleContainer.style.opacity = "0";
             //fire custom event
@@ -52,9 +49,9 @@ var ripple = function() {
         if (rippleContainer.getAttribute("animating") == "1") {
             rippleContainer.setAttribute("animating", "3");
             collapseTime = e.target.getAttribute("ripple-leave-collapse-time") || .4;
-            rippleContainer.style.transition = "padding " + collapseTime + "s linear, box-shadow " + collapseTime + "s linear";
+            rippleContainer.style.transition = "transform " + collapseTime + "s linear, box-shadow " + collapseTime + "s linear";
             rippleContainer.style.boxShadow = "none";
-            rippleContainer.style.padding = "0px";
+            rippleContainer.style.transform = "translate(-50%, -50%) scale(0)";
         }
     }
     //returns the ripple div by scanning all children. If not found, return the argument
@@ -69,18 +66,6 @@ var ripple = function() {
         }
         return el;
     }
-    //calculates the top and left space of the document hidden due to scrolling
-    function getScroll(el) {
-        scroll = {
-            top: 0 + el.getBoundingClientRect().top,
-            left: 0 + el.getBoundingClientRect().left
-        };
-        do {
-            scroll.top += el.scrollTop || 0;
-            scroll.left += el.scrollLeft || 0;
-        } while (el = el.parentNode);
-        return scroll;
-    }
     var ripple = {
         registerRipples: function() {
             //loop through all elements with the class ripple and add eventlisteners to them
@@ -90,9 +75,11 @@ var ripple = function() {
                     rippleStart(e);
                 }, false);
                 rippleButtons[i].addEventListener("touchmove", function(e) {
+                    if (e.target.hasAttribute("ripple-cancel-on-move")) {
+                        rippleRetrieve(e);
+                    }
                     try {
-                        scroll = getScroll(e.target);
-                        overEl = document.elementFromPoint(e.touches[0].pageX - scroll.left, e.touches[0].pageY - scroll.top).className.indexOf("ripple") >= 0;
+                        overEl = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).className.indexOf("ripple") >= 0;
                     } catch (err) {
                         overEl = false;
                     }
@@ -109,13 +96,18 @@ var ripple = function() {
                 rippleButtons[i].addEventListener("mouseup", function(e) {
                     rippleEnd(e);
                 }, false);
+                rippleButtons[i].addEventListener("mousemove", function(e) {
+                    if (e.target.hasAttribute("ripple-cancel-on-move")) {
+                        rippleRetrieve(e);
+                    }
+                }, false);
                 rippleButtons[i].addEventListener("mouseleave", function(e) {
                     rippleRetrieve(e);
                 }, false);
                 rippleButtons[i].addEventListener("transitionend", function(e) {
                     if (e.target.getAttribute("animating") == "2" || e.target.getAttribute("animating") == "3") {
                         e.target.style.transition = "none";
-                        e.target.style.padding = "0px";
+                        e.target.style.transform = "translate(-50%, -50%) scale(0)";
                         e.target.style.boxShadow = "none";
                         e.target.setAttribute("animating", "0");
                     }
