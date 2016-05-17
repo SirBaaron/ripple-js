@@ -23,6 +23,7 @@ To customize the ripple effect you can set the following tags on your ripple ele
 * **ripple-press-expand-time**<br>Change the time the ripple needs to fully expand while the element is being pressed. <p>°The unit of measurement is seconds.<br>°_Example:_ `ripple-press-expand-time="10"`<br>°_Default value:_ `3`
 * **ripple-release-expand-time**<br>Set the time the ripple needs to ripple away when the user releases the mouse / touch. <p>°The unit of measurement is seconds.<br>°_Example:_ `ripple-release-expand-time="1.5"`<br>°_Default value:_ `0.4`
 * **ripple-leave-collapse-time**<br>Configure the time the ripple collapses in itselft when the user moves the touch / mousepress away from the element. <p>°The unit of measurement is seconds.<br>°_Example:_ `ripple-leave-collapse-time=".8"`<br>°_Default Value:_ `0.4`
+* **ripple-cancel-on-move**<br>If applied, the ripple cancels on the slightest touch movement. <br>°Normally the ripple gets canceled when the touch is being moved out of the container. With this attribute, the touch gets canceled on a touchmove or mousemove. This is especially great for when the container can be scrolled around by the user.
 
 <br><br><br>
 ###Methods
@@ -34,4 +35,8 @@ ripple.registerRipples();
 
 <br><br><br>
 ###Events
-* **ripple-button-click**<br>This event gets fired when a ripple is released<p>The only parametrer is `target`, which is the element that got clicked
+* **ripple-button-click**<br>This event gets fired when a ripple is released<p>The only parameter is `target`, which is the element that got clicked
+
+
+<br><br><br>
+To unregister an element, simply remove the `ripple` class.
