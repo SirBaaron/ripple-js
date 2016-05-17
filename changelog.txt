@@ -31,3 +31,13 @@
 !========_ Version 1.2.1 _========!
 
 °Scrolling no longer gets disabled
+
+
+
+
+!========_ Version 1.3 _========!
+
+°Bug with wrong ripple position fixed
+°Performance improvements
+°Added the ripple-cancel-on-move attribute
+°You can unregister a ripple now by removing the ripple class
