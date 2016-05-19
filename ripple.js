@@ -46,6 +46,9 @@ var ripple = function() {
     }
     function rippleRetrieve(e) {
         rippleContainer = getRippleContainer(e.target);
+        if (rippleContainer.style.transform == "translate(-50%, -50%) scale(0)") {
+            rippleContainer.setAttribute("animating", "0");
+        }
         if (rippleContainer.getAttribute("animating") == "1") {
             rippleContainer.setAttribute("animating", "3");
             collapseTime = e.target.getAttribute("ripple-leave-collapse-time") || .4;
