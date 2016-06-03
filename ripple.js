@@ -8,6 +8,7 @@ var ripple = function() {
         document.head.appendChild(css);
         ripple.registerRipples();
     });
+
     function rippleStart(e) {
         rippleContainer = getRippleContainer(e.target);
         if ((rippleContainer.getAttribute("animating") == "0" || !rippleContainer.hasAttribute("animating")) && e.target.className.indexOf("ripple") > -1) {
@@ -26,6 +27,7 @@ var ripple = function() {
             rippleContainer.style.transform = "translate(-50%, -50%) scale(" + fullCoverRadius / 100 + ")";
         }
     }
+
     function rippleEnd(e) {
         rippleContainer = getRippleContainer(e.target);
         if (rippleContainer.getAttribute("animating") == "1") {
@@ -44,6 +46,7 @@ var ripple = function() {
             }));
         }
     }
+
     function rippleRetrieve(e) {
         rippleContainer = getRippleContainer(e.target);
         if (rippleContainer.style.transform == "translate(-50%, -50%) scale(0)") {
@@ -80,6 +83,7 @@ var ripple = function() {
                 rippleButtons[i].addEventListener("touchmove", function(e) {
                     if (e.target.hasAttribute("ripple-cancel-on-move")) {
                         rippleRetrieve(e);
+                        return
                     }
                     try {
                         overEl = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).className.indexOf("ripple") >= 0;
@@ -100,7 +104,7 @@ var ripple = function() {
                     rippleEnd(e);
                 }, false);
                 rippleButtons[i].addEventListener("mousemove", function(e) {
-                    if (e.target.hasAttribute("ripple-cancel-on-move")) {
+                    if (e.target.hasAttribute("ripple-cancel-on-move") && (e.movementX != 0 || e.movementY != 0)) {
                         rippleRetrieve(e);
                     }
                 }, false);
@@ -120,6 +124,19 @@ var ripple = function() {
                     rippleButtons[i].innerHTML += '<div class="rippleContainer"></div>';
                 }
             }
+        },
+        ripple: function(el) {
+            if (el.className.indexOf("ripple") < 0) {
+                return;
+            }
+            rect = el.getBoundingClientRect();
+            e = {
+                target: el,
+                offsetX: rect.width / 2,
+                offsetY: rect.height / 2
+            }
+            rippleStart(e);
+            rippleEnd(e);
         }
     };
     return ripple;

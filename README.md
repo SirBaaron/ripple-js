@@ -8,8 +8,8 @@
 <br><br><br>
 
 ### Setup
-* **With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
-* **As Download:**<p>1. Download the project as zip from github.<br>2. Extract the file and move the folder to your project.<br>3. Add the tag `script src="ripple-js-master/ripple-js-master/ripple.min.js"></script>` to your index file.
+**With npm:**<p>1. At the root of your index, type `npm install ripple-js` into the command line.<br>2. Add the tag `<script src="node_modules/ripple-js/ripple.min.js"></script>` to your index file.
+
  
 **Then simply add the class ripple to elements**
 
@@ -27,16 +27,19 @@ To customize the ripple effect you can set the following tags on your ripple ele
 
 <br><br><br>
 ###Methods
-* **registerRipples**<br>Call this method to register ripple elements afterwards <p>°If you add ripple elements after the document has loaded, you then need to call this function. The function gets called auomatically on initial load.<br>°_Example:_ 
+
+* **registerRipples()**<br>Call this method to register ripple elements afterwards <p>°If you add ripple elements after the document has loaded, you then need to call this function. The function gets called auomatically on initial load.<br>°_Example:_ 
 ```
 document.body.innerHTML += '<div class="ripple">Added Afterwards</div>';
 ripple.registerRipples();
 ```
+* **ripple(element)**<br>With this function you can trigger a ripple programatically.<p>°The only argument it takes is the element you want to start the ripple at. This element needs to have been registered before!<br>°The ripple starts at the center of the element. This function is useful when you want to click an element based on key presses.<br>°_Example:_ `ripple.ripple(document.getElementById("someEl"));`
 
 <br><br><br>
 ###Events
+
 * **ripple-button-click**<br>This event gets fired when a ripple is released<p>The only parameter is `target`, which is the element that got clicked
 
 
 <br><br><br>
-To unregister an element, simply remove the `ripple` class.
+Tip: To unregister an element, simply remove the `ripple` class.
