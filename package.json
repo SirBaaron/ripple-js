@@ -1,0 +1,26 @@
+{
+  "name": "ripple-js",
+  "version": "1.4.0",
+  "description": "A small library for ripple effects",
+  "main": "ripple.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirBaaron/ripple-js.git"
+  },
+  "keywords": [
+    "ripple",
+    "material-design",
+    "animation",
+    "library",
+    "small"
+  ],
+  "author": "Aaron Längert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SirBaaron/ripple-js/issues"
+  },
+  "homepage": "https://github.com/SirBaaron/ripple-js#readme"
+}
