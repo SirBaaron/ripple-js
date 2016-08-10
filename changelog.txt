@@ -57,3 +57,10 @@
 °Added the function ripple(). Call it to start a ripple without user input
 °Bug where ripple with the ripple-cancel-on-move attribute would cancel automatically fixed
 °Changed Readme a bit
+
+
+
+
+!========_ Version 1.4.1 _========!
+
+°One can now specify an onrippleclick attribute, which works just like onclick.
