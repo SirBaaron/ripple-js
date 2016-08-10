@@ -25,6 +25,8 @@ To customize the ripple effect you can set the following tags on your ripple ele
 * **ripple-leave-collapse-time**<br>Configure the time the ripple collapses in itselft when the user moves the touch / mousepress away from the element. <p>°The unit of measurement is seconds.<br>°_Example:_ `ripple-leave-collapse-time=".8"`<br>°_Default Value:_ `0.4`
 * **ripple-cancel-on-move**<br>If applied, the ripple cancels on the slightest touch movement. <br>°Normally the ripple gets canceled when the touch is being moved out of the container. With this attribute, the touch gets canceled on a touchmove or mousemove. This is especially great for when the container can be scrolled around by the user.
 
+* **onrippleclick**<br>You can specify JavaScript that executes when the ripple gets released in this attribute. It works like _onclick_ and is a short alternative to listening for a ripple-button-click event.
+
 <br><br><br>
 ###Methods
 

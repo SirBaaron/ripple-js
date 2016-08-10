@@ -40,10 +40,11 @@ var ripple = function() {
             rippleContainer.style.transform = "translate(-50%, -50%) scale(" + destinationRadius / 100 + ")";
             rippleContainer.style.background = "radial-gradient(transparent 10%, " + background + " 40%)";
             rippleContainer.style.opacity = "0";
-            //fire custom event
+            //fire custom event and execute js given in onrippleclick attribute
             e.target.dispatchEvent(new CustomEvent("ripple-button-click", {
                 target: e.target
             }));
+            eval(e.target.getAttribute("onrippleclick"));
         }
     }
 
