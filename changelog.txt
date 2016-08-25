@@ -64,3 +64,10 @@
 !========_ Version 1.4.1 _========!
 
 °One can now specify an onrippleclick attribute, which works just like onclick.
+
+
+
+
+!========_ Version 1.4.2 _========!
+
+°All event handlers now prevent the default behavior
