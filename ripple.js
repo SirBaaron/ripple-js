@@ -79,11 +79,10 @@ var ripple = function() {
             rippleButtons = document.getElementsByClassName("ripple");
             for (i = 0; i < rippleButtons.length; i++) {
                 rippleButtons[i].addEventListener("touchstart", function(e) {
-                    e.preventDefault();   
+                    console.log(e);   
                     rippleStart(e);
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("touchmove", function(e) {
-                    e.preventDefault();
                     if (e.target.hasAttribute("ripple-cancel-on-move")) {
                         rippleRetrieve(e);
                         return
@@ -96,29 +95,24 @@ var ripple = function() {
                     if (!overEl) {
                         rippleRetrieve(e);
                     }
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("touchend", function(e) {
-                    e.preventDefault();
                     rippleEnd(e);
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("mousedown", function(e) {
-                    e.preventDefault();
                     rippleStart(e);
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("mouseup", function(e) {
-                    e.preventDefault();
                     rippleEnd(e);
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("mousemove", function(e) {
-                    e.preventDefault();
                     if (e.target.hasAttribute("ripple-cancel-on-move") && (e.movementX != 0 || e.movementY != 0)) {
                         rippleRetrieve(e);
                     }
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("mouseleave", function(e) {
-                    e.preventDefault();
                     rippleRetrieve(e);
-                });
+                }, {passive: true});
                 rippleButtons[i].addEventListener("transitionend", function(e) {
                     if (e.target.getAttribute("animating") == "2" || e.target.getAttribute("animating") == "3") {
                         e.target.style.transition = "none";
@@ -126,7 +120,7 @@ var ripple = function() {
                         e.target.style.boxShadow = "none";
                         e.target.setAttribute("animating", "0");
                     }
-                });
+                }, {passive: true});
                 //if not there, create a ripple div inside the element
                 if (getRippleContainer(rippleButtons[i]) == rippleButtons[i]) {
                     rippleButtons[i].innerHTML += '<div class="rippleContainer"></div>';
