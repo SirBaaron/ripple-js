@@ -79,7 +79,6 @@ var ripple = function() {
             rippleButtons = document.getElementsByClassName("ripple");
             for (i = 0; i < rippleButtons.length; i++) {
                 rippleButtons[i].addEventListener("touchstart", function(e) {
-                    console.log(e);   
                     rippleStart(e);
                 }, {passive: true});
                 rippleButtons[i].addEventListener("touchmove", function(e) {
