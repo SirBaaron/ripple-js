@@ -78,3 +78,10 @@
 !========_ Version 1.4.3 _========!
 
 °The event listeners are now passive and therefore don't call preventDafault() anymore
+
+
+
+
+!========_ Version 1.4.4 _========!
+
+°Removed debugging message :€

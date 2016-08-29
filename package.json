@@ -1,6 +1,6 @@
 {
   "name": "ripple-js",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A small library for ripple effects",
   "main": "ripple.min.js",
   "scripts": {
